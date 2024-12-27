@@ -1,5 +1,6 @@
 package com.parkingapp.userservice.infrastructure.entrypoint.rest;
 
+import com.parkingapp.userservice.domain.exceptions.InvalidCredentialsException;
 import com.parkingapp.userservice.infrastructure.entrypoint.rest.response.error.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ErrorResponse handle(HttpMessageNotReadableException exception) {
+        return new ErrorResponse(exception.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ErrorResponse handle(InvalidCredentialsException exception) {
         return new ErrorResponse(exception.getMessage());
     }
 }
