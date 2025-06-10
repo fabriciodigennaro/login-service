@@ -5,7 +5,9 @@ import com.parkingapp.userservice.application.registeruser.RegisterUserUseCase;
 import com.parkingapp.userservice.domain.user.Roles;
 import com.parkingapp.userservice.domain.user.User;
 import com.parkingapp.userservice.domain.user.common.IdGenerator;
+import com.parkingapp.userservice.infrastructure.entrypoint.rest.request.LoginRequest;
 import com.parkingapp.userservice.infrastructure.entrypoint.rest.request.RegistrationRequest;
+import com.parkingapp.userservice.infrastructure.entrypoint.rest.response.TokenResponse;
 import com.parkingapp.userservice.infrastructure.entrypoint.rest.response.UsersResponse;
 import com.parkingapp.userservice.infrastructure.entrypoint.rest.response.error.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -112,5 +114,11 @@ public class AuthController {
                 new ErrorResponse(String.format("Error saving user %s", request.email()))
             );
         };
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<TokenResponse> login(@RequestBody @Valid LoginRequest request) {
+        TokenResponse tokenResponse = authService.login(request);
+        return  ResponseEntity.ok(tokenResponse);
     }
 }
